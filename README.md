@@ -1,6 +1,6 @@
 # Custom HTTP Client for the Twilio Java Helper Library
 
-Use the twilio-java helper library with a proxy server.
+Use the twilio-java helper library with a proxy server
 
 ## Usage
 
