@@ -14,6 +14,13 @@ public class ProxiedTwilioClientCreator {
     private int proxyPort;
     private HttpClient httpClient;
 
+    /**
+     * Constructor for ProxiedTwilioClientCreator
+     * @param username
+     * @param password
+     * @param proxyHost
+     * @param proxyPort
+     */
     public ProxiedTwilioClientCreator(String username, String password, String proxyHost, int proxyPort) {
         this.username = username;
         this.password = password;
@@ -21,10 +28,12 @@ public class ProxiedTwilioClientCreator {
         this.proxyPort = proxyPort;
     }
 
+    /**
+     * Creates a custom HttpClient based on default config as seen on:
+     * {@link com.twilio.http.NetworkHttpClient#NetworkHttpClient() constructor}
+     */
     private void createHttpClient() {
-        // Default config
         RequestConfig config = RequestConfig.custom()
-                .setConnectTimeout(10000)
                 .setConnectTimeout(10000)
                 .setSocketTimeout(30500)
                 .build();
@@ -41,9 +50,14 @@ public class ProxiedTwilioClientCreator {
                 .setProxy(proxy)
                 .setDefaultRequestConfig(config);
 
+        // Inclusion of Twilio headers and build() is executed under this constructor
         this.httpClient = new NetworkHttpClient(clientBuilder);
     }
 
+    /**
+     * Get the custom client or builds a new one
+     * @return a TwilioRestClient object
+     */
     public TwilioRestClient getClient() {
         if (this.httpClient == null) {
             this.createHttpClient();
